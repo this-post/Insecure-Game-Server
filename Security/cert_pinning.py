@@ -1,12 +1,20 @@
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
-from Constant import server_config, msg_config
+from Constant.server_config import Trusted_URLs
 import ssl
 
-def get_pinned_cert_sha512() -> str:
-    cert_pem = ssl.get_server_certificate((server_config.PLAYFAB_URL, 443))
-    cert = x509.load_pem_x509_certificate(cert_pem.encode('utf-8'), default_backend())
-    sha512fingerprint = cert.fingerprint(hashes.SHA256())
-    return sha512fingerprint.hex()
-    
+def get_pinned_cert_sha512() -> dict:
+    try:
+        sha512Fingerprints = {}
+        sha512Fingerprints['fingerprint'] = []
+        for url in Trusted_URLs:
+            # url_key = url.name # key
+            url_value = url.value
+            cert_pem = ssl.get_server_certificate((url_value, 443))
+            cert = x509.load_pem_x509_certificate(cert_pem.encode('utf-8'), default_backend())
+            sha512 = cert.fingerprint(hashes.SHA512())
+            sha512Fingerprints['fingerprint'].append({'url': url_value, 'sha512': sha512.hex()})
+        return sha512Fingerprints
+    except:
+        return {}

@@ -19,6 +19,9 @@ KEX_GEN_INVALID_KID = "Invalid KID"
 KEX_GEN_FAILED_CODE = 3004
 KEX_GEN_FAILED = "Key agreement failed"
 
+CERT_GET_URL_ERROR_CODE = 4000
+CERT_GET_URL_ERROR = "Retrieving trusted URLs is failed"
+
 UNKNOWN_ERROR_CODE = 9999
 UNKNOWN_ERROR = "Unknown error"
 

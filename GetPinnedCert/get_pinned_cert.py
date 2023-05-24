@@ -15,9 +15,19 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     if kid:
         enc_alg = AES_GCM(kid)
         if enc_alg.is_valid_kid():
-            sha512_fingerprint = cert_pinning.get_pinned_cert_sha512()
+            sha512_fingerprints = cert_pinning.get_pinned_cert_sha512()
+            if not sha512_fingerprints:
+                response = {
+                    'code': msg_config.CERT_GET_URL_ERROR_CODE,
+                    'message': msg_config.CERT_GET_URL_ERROR
+                }
+                return func.HttpResponse(
+                    json.dumps(response),
+                    mimetype = "application/json",
+                    status_code = 500
+                )
             payload = {
-                'result': {'sha512Fingerprint': sha512_fingerprint}
+                'result': sha512_fingerprints
             }
             enc_msg = enc_alg.aes_encrypt(json.dumps(payload))
             response = {
@@ -36,6 +46,7 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
             }
             return func.HttpResponse(
                 json.dumps(response),
+                mimetype = "application/json",
                 status_code = 500
             )
     else:

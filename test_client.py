@@ -37,7 +37,7 @@ cipher = bytes.fromhex(encrypted.replace(encrypted[:16 * 2], '').replace(encrypt
 # print(aad.hex())
 aesgcm = AESGCM(derived_key)
 plain = aesgcm.decrypt(nonce, cipher, aad)
-# print(plain)
+print(plain)
 
 aesgcm = AESGCM(derived_key)
 nonce = os.urandom(16)
