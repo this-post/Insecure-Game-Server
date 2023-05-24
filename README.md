@@ -8,7 +8,7 @@ cd PrivKey
 
 ## Choosing Azure Redis or local Redis
 In `Constant/server_config.py`
-```
+```python
 # Local Redis
 IS_TESTING_ENV_REDIS = True
 
