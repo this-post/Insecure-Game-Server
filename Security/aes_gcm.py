@@ -23,17 +23,17 @@ class AES_GCM:
     
     def aes_encrypt(self, plain) -> str:
         session_key = self._redis.get(self.kid)
-        nonce = os.urandom(16)
+        nonce = os.urandom(12)
         aad = os.urandom(16)
         aesgcm = AESGCM(session_key)
         cipher = aesgcm.encrypt(nonce, plain.encode('utf-8'), aad)
-        return nonce.hex() + cipher.hex() + aad.hex() # 16 bytes of nonce + cipher + 16 bytes of AAD
+        return nonce.hex() + cipher.hex() + aad.hex() # 12 bytes of nonce + cipher + 16 bytes of AAD
 
     def aes_decrypt(self, cipher) -> str:
         session_key = self._redis.get(self.kid)
-        nonce = bytes.fromhex(cipher[:16 * 2])
+        nonce = bytes.fromhex(cipher[:12 * 2])
         aad = bytes.fromhex(cipher[-(16 * 2):])
-        cipher = bytes.fromhex(cipher.replace(cipher[:16 * 2], '').replace(cipher[-(16 * 2):], ''))
+        cipher = bytes.fromhex(cipher.replace(cipher[:12 * 2], '').replace(cipher[-(16 * 2):], ''))
         aesgcm = AESGCM(session_key)
         plain = aesgcm.decrypt(nonce, cipher, aad)
         return plain

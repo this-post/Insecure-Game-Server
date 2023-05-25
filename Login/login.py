@@ -84,7 +84,7 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     playfab_auth.login_with_email(playfab_auth_req)
     enc_alg = AES_GCM(kid)
     if playfab_auth.success:
-        logging.info(playfab_auth.success)
+        # logging.info(playfab_auth.success)
         payload = {
             'result': playfab_auth.success
         }
@@ -99,7 +99,7 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
                 status_code = 200
             )
     if playfab_auth.failure:
-        logging.info(playfab_auth.failure)
+        # logging.info(playfab_auth.failure)
         payload = {
             'result': playfab_auth.failure
         }
