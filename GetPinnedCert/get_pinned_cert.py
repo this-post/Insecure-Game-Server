@@ -10,7 +10,15 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
         req_body = req.get_json()
         logging.info(msg_config.FUNC_CALL_LOG.format(function_name = context.function_name, json_body = str(req_body)))
     except ValueError:
-        return func.HttpResponse(msg_config.HTTP_REQ_IS_NOT_JSON, status_code = 400)
+        response = {
+            'code': msg_config.HTTP_REQ_IS_NOT_JSON_CODE,
+            'message': msg_config.HTTP_REQ_IS_NOT_JSON
+        }
+        return func.HttpResponse(
+                    json.dumps(response),
+                    mimetype = "application/json",
+                    status_code = 400
+                )
     kid = req_body.get(expected_param_name)
     if kid:
         enc_alg = AES_GCM(kid)

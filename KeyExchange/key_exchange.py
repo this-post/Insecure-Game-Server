@@ -9,7 +9,15 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
         req_body = req.get_json()
         logging.info(msg_config.FUNC_CALL_LOG.format(function_name = context.function_name, json_body = str(req_body)))
     except ValueError:
-        return func.HttpResponse(msg_config.HTTP_REQ_IS_NOT_JSON, status_code = 400)
+        response = {
+            'code': msg_config.HTTP_REQ_IS_NOT_JSON_CODE,
+            'message': msg_config.HTTP_REQ_IS_NOT_JSON
+        }
+        return func.HttpResponse(
+                    json.dumps(response),
+                    mimetype = "application/json",
+                    status_code = 400
+                )
     client_pub_key = req_body.get(expected_param_name)
     if client_pub_key:
         key_exchange_alg = KEY_AGREEMENT()
@@ -19,8 +27,28 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
             'message': ret_msg
         }
         if kex_result:
-            return func.HttpResponse(json.dumps(response), mimetype = "application/json", status_code = 200)
+            return func.HttpResponse(
+                        json.dumps(response), 
+                        mimetype = "application/json", 
+                        status_code = 200
+                    )
         else:
-            return func.HttpResponse(msg_config.KEX_GEN_FAILED, status_code = 500)
+            response = {
+                'code': msg_config.KEX_GEN_FAILED_CODE,
+                'message': msg_config.KEX_GEN_FAILED
+            }
+            return func.HttpResponse(
+                        json.dumps(response), 
+                        mimetype = "application/json", 
+                        status_code = 500
+                    )
     else:
-        return func.HttpResponse(msg_config.HTTP_REQ_PARAMS_MISSING.format(param_name = expected_param_name), status_code = 400)
+        response = {
+            'code': msg_config.HTTP_REQ_PARAMS_MISSING_CODE,
+            'message': msg_config.HTTP_REQ_PARAMS_MISSING.format(param_name = expected_param_name)
+        }
+        return func.HttpResponse(
+                    json.dumps(response), 
+                    mimetype = "application/json", 
+                    status_code = 400
+                )
