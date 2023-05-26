@@ -3,7 +3,7 @@ from Constant import server_config
 import os, redis
 
 class AES_GCM:
-    def __init__(self, kid) -> None:
+    def __init__(self, keyId) -> None:
         if server_config.IS_TESTING_ENV_REDIS:
             self._redis = redis.Redis(
                 host = 'localhost',
@@ -19,10 +19,10 @@ class AES_GCM:
                 password = server_config.REDIS_PWD,
                 # decode_responses = True -> this will automatically decode binary to ASCII
             )
-        self.kid = kid
+        self.keyId = keyId
     
     def aes_encrypt(self, plain) -> str:
-        session_key = self._redis.get(self.kid)
+        session_key = self._redis.get(self.keyId)
         nonce = os.urandom(12)
         aad = os.urandom(16)
         aesgcm = AESGCM(session_key)
@@ -30,7 +30,7 @@ class AES_GCM:
         return nonce.hex() + cipher.hex() + aad.hex() # 12 bytes of nonce + cipher + 16 bytes of AAD
 
     def aes_decrypt(self, cipher) -> str:
-        session_key = self._redis.get(self.kid)
+        session_key = self._redis.get(self.keyId)
         nonce = bytes.fromhex(cipher[:12 * 2])
         aad = bytes.fromhex(cipher[-(16 * 2):])
         cipher = bytes.fromhex(cipher.replace(cipher[:12 * 2], '').replace(cipher[-(16 * 2):], ''))
@@ -39,7 +39,7 @@ class AES_GCM:
         return plain
     
     def is_valid_kid(self) -> bool:
-        if self._redis.get(self.kid):
+        if self._redis.get(self.keyId):
             return True
         else:
             return False

@@ -5,7 +5,7 @@ from PlayFabUtil.authen import AUTHEN
 from Security.aes_gcm import AES_GCM
 
 def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
-    expected_param_names = ['kid', 'data']
+    expected_param_names = ['keyId', 'data']
     try:
         req_body = req.get_json()
         logging.info(msg_config.FUNC_CALL_LOG.format(function_name = context.function_name, json_body = str(req_body)))

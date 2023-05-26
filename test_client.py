@@ -19,7 +19,7 @@ res = requests.post(url + "/api/KeyExchange", json=public_key_post)
 res_json = json.loads(res.text)
 msg_json = json.loads(res_json['message'])
 server_public_key = msg_json['serverPublicKey']
-kid = msg_json['kid']
+kid = msg_json['keyId']
 salt = msg_json['salt']
 
 public_key_der = serialization.load_der_public_key(bytes.fromhex(server_public_key))
@@ -27,7 +27,7 @@ shared_secret = client_private_key.exchange(ec.ECDH(), public_key_der)
 derived_key = HKDF(algorithm=hashes.SHA256(), length=32, salt=bytes.fromhex(salt), info=b'handshake data').derive(shared_secret)
 # print(derived_key.hex())
 
-res = requests.post(url + "/api/GetPinnedCert", json={"kid": kid})
+res = requests.post(url + "/api/GetPinnedCert", json={"keyId": kid})
 res_json = json.loads(res.text)
 encrypted = res_json['message']
 # print(encrypted)
@@ -47,7 +47,7 @@ enc = aesgcm.encrypt(nonce, plain.encode('utf-8'), aad)
 # print('Nonce: ' + nonce.hex())
 # print('AAD: ' + aad.hex())
 cipher = nonce.hex() + enc.hex() + aad.hex()
-res = requests.post(url + "/api/Login", json={"kid": kid, "data": cipher})
+res = requests.post(url + "/api/Login", json={"keyId": kid, "data": cipher})
 res_json = json.loads(res.text)
 encrypted = res_json['message']
 nonce = bytes.fromhex(encrypted[:12 * 2])

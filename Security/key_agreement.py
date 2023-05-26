@@ -40,9 +40,9 @@ class KEY_AGREEMENT:
         ).derive(shared_secret)
 
     def generate_kid(self, session_key) -> str:
-        kid = str(uuid.uuid4())
-        self._redis.set(kid, session_key)
-        return kid
+        keyId = str(uuid.uuid4())
+        self._redis.set(keyId, session_key)
+        return keyId
 
     def key_exchange(self, client_pub_key) -> tuple[bool, str]:
         try:
@@ -50,9 +50,9 @@ class KEY_AGREEMENT:
             _salt = os.urandom(16)
             shared_secret = self.get_shared_secret(client_pub_key)
             session_key = self.get_shared_secret_kdf(_salt, shared_secret)
-            kid = self.generate_kid(session_key)
+            keyId = self.generate_kid(session_key)
             kex_result = {
-                'kid': kid,
+                'keyId': keyId,
                 'salt': _salt.hex(),
                 'serverPublicKey': self.serv_priv_key.public_key().public_bytes(
                     encoding = serialization.Encoding.DER,
