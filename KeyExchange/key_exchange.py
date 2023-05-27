@@ -23,9 +23,9 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
         key_exchange_alg = KEY_AGREEMENT()
         kex_result, ret_msg = key_exchange_alg.key_exchange(client_pub_key)
         response = {
-            'code': msg_config.FUNC_CALL_SUCCESS_CODE,
-            'message': ret_msg
+            'code': msg_config.FUNC_CALL_SUCCESS_CODE
         }
+        response.update(ret_msg)
         if kex_result:
             return func.HttpResponse(
                         json.dumps(response), 

@@ -17,10 +17,9 @@ public_key_post = {"publicKey": client_public_key}
 # res = requests.post(url + "/getE2eeParams", json=public_key_post)
 res = requests.post(url + "/api/KeyExchange", json=public_key_post)
 res_json = json.loads(res.text)
-msg_json = json.loads(res_json['message'])
-server_public_key = msg_json['serverPublicKey']
-kid = msg_json['keyId']
-salt = msg_json['salt']
+server_public_key = res_json['serverPublicKey']
+kid = res_json['keyId']
+salt = res_json['salt']
 
 public_key_der = serialization.load_der_public_key(bytes.fromhex(server_public_key))
 shared_secret = client_private_key.exchange(ec.ECDH(), public_key_der)

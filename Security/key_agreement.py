@@ -44,7 +44,7 @@ class KEY_AGREEMENT:
         self._redis.set(keyId, session_key)
         return keyId
 
-    def key_exchange(self, client_pub_key) -> tuple[bool, str]:
+    def key_exchange(self, client_pub_key) -> tuple[bool, dict]:
         try:
             # client_pub_key_der = serialization.load_der_public_key(bytes.fromhex(client_pub_key))
             _salt = os.urandom(16)
@@ -59,8 +59,8 @@ class KEY_AGREEMENT:
                     format = serialization.PublicFormat.SubjectPublicKeyInfo
                 ).hex()
             }
-            return (True, json.dumps(kex_result))
+            return (True, kex_result)
         except ValueError:
             return (False, msg_config.KEX_INVALID_DER)
         except UnsupportedAlgorithm:
-            return (False, msg_config.KEX_INVALID_PUBKEY)
+            return (False, msg_config.KEX_INVALID_)
