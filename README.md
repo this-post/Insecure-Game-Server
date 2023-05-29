@@ -15,3 +15,8 @@ IS_TESTING_ENV_REDIS = True
 # Azure Redis (SSL port only)
 IS_TESTING_ENV_REDIS = False
 ```
+### If local Redis is chosen
+```bash
+docker pull redis
+docker run --rm -p 6379:6379 -d redis
+```
