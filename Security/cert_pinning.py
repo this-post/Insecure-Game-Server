@@ -7,14 +7,14 @@ import ssl
 def get_pinned_cert_sha512() -> dict:
     try:
         sha512_fingerprint_dict = {}
-        sha512_fingerprint_dict['fingerprint'] = []
+        sha512_fingerprint_dict['Fingerprint'] = []
         for url in Trusted_URLs:
             # url_key = url.name # key
             url_value = url.value
             cert_pem = ssl.get_server_certificate((url_value, 443))
             cert = x509.load_pem_x509_certificate(cert_pem.encode('utf-8'), default_backend())
             sha512 = cert.fingerprint(hashes.SHA512())
-            sha512_fingerprint_dict['fingerprint'].append({'url': url_value, 'sha512': sha512.hex()})
+            sha512_fingerprint_dict['Fingerprint'].append({'Url': url_value, 'Sha512': sha512.hex()})
         return sha512_fingerprint_dict
     except:
         return {}

@@ -1,6 +1,6 @@
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from Constant import server_config
-import os, redis
+import os, redis, logging
 
 class AES_GCM:
     def __init__(self, keyId) -> None:
@@ -27,6 +27,9 @@ class AES_GCM:
         aad = os.urandom(16)
         aesgcm = AESGCM(session_key)
         cipher = aesgcm.encrypt(nonce, plain.encode('utf-8'), aad)
+        logging.info('Nonce: ' + nonce.hex())
+        logging.info('AAD: ' + aad.hex())
+        logging.info('Cipher: ' + cipher.hex())
         return nonce.hex() + cipher.hex() + aad.hex() # 12 bytes of nonce + cipher + 16 bytes of AAD
 
     def aes_decrypt(self, cipher) -> str:
@@ -34,6 +37,9 @@ class AES_GCM:
         nonce = bytes.fromhex(cipher[:12 * 2])
         aad = bytes.fromhex(cipher[-(16 * 2):])
         cipher = bytes.fromhex(cipher.replace(cipher[:12 * 2], '').replace(cipher[-(16 * 2):], ''))
+        logging.info('Nonce: ' + nonce.hex())
+        logging.info('Aad: ' + aad.hex())
+        logging.info('Cipher: ' + cipher.hex())
         aesgcm = AESGCM(session_key)
         plain = aesgcm.decrypt(nonce, cipher, aad)
         return plain

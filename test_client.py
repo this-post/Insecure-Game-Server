@@ -1,6 +1,6 @@
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import requests, json, os
 
@@ -23,13 +23,13 @@ salt = res_json['salt']
 
 public_key_der = serialization.load_der_public_key(bytes.fromhex(server_public_key))
 shared_secret = client_private_key.exchange(ec.ECDH(), public_key_der)
-derived_key = HKDF(algorithm=hashes.SHA256(), length=32, salt=bytes.fromhex(salt), info=b'handshake data').derive(shared_secret)
+derived_key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=bytes.fromhex(salt), iterations=310000).derive(shared_secret)
 # print(derived_key.hex())
 
 res = requests.post(url + "/api/GetPinnedCert", json={"keyId": kid})
 res_json = json.loads(res.text)
 encrypted = res_json['message']
-# print(encrypted)
+print(res_json)
 nonce = bytes.fromhex(encrypted[:12 * 2])
 aad = bytes.fromhex(encrypted[-(16 * 2):])
 cipher = bytes.fromhex(encrypted.replace(encrypted[:12 * 2], '').replace(encrypted[-(16 * 2):], ''))
@@ -53,4 +53,4 @@ nonce = bytes.fromhex(encrypted[:12 * 2])
 aad = bytes.fromhex(encrypted[-(16 * 2):])
 cipher = bytes.fromhex(encrypted.replace(encrypted[:12 * 2], '').replace(encrypted[-(16 * 2):], ''))
 plain = aesgcm.decrypt(nonce, cipher, aad)
-print(plain)
+# print(plain)
