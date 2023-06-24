@@ -13,22 +13,22 @@ client_public_key = client_private_key.public_key().public_bytes(
                         format=serialization.PublicFormat.SubjectPublicKeyInfo
                     ).hex()
 # print(client_public_key)
-public_key_post = {"publicKey": client_public_key}
+public_key_post = {"PublicKey": client_public_key}
 # res = requests.post(url + "/getE2eeParams", json=public_key_post)
 res = requests.post(url + "/api/KeyExchange", json=public_key_post)
 res_json = json.loads(res.text)
-server_public_key = res_json['serverPublicKey']
-kid = res_json['keyId']
-salt = res_json['salt']
+server_public_key = res_json['ServerPublicKey']
+kid = res_json['KeyId']
+salt = res_json['Salt']
 
 public_key_der = serialization.load_der_public_key(bytes.fromhex(server_public_key))
 shared_secret = client_private_key.exchange(ec.ECDH(), public_key_der)
 derived_key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=bytes.fromhex(salt), iterations=310000).derive(shared_secret)
 # print(derived_key.hex())
 
-res = requests.post(url + "/api/GetPinnedCert", json={"keyId": kid})
+res = requests.post(url + "/api/GetPinnedCert", json={"KeyId": kid})
 res_json = json.loads(res.text)
-encrypted = res_json['message']
+encrypted = res_json['Message']
 print(res_json)
 nonce = bytes.fromhex(encrypted[:12 * 2])
 aad = bytes.fromhex(encrypted[-(16 * 2):])
@@ -41,14 +41,14 @@ print(plain)
 aesgcm = AESGCM(derived_key)
 nonce = os.urandom(12)
 aad = os.urandom(16)
-plain = json.dumps({"email": "test@test.com", "password": "testtest"})
+plain = json.dumps({"Email": "test@test.com", "Password": "testtest"})
 enc = aesgcm.encrypt(nonce, plain.encode('utf-8'), aad)
 # print('Nonce: ' + nonce.hex())
 # print('AAD: ' + aad.hex())
 cipher = nonce.hex() + enc.hex() + aad.hex()
-res = requests.post(url + "/api/Login", json={"keyId": kid, "data": cipher})
+res = requests.post(url + "/api/Login", json={"KeyId": kid, "Data": cipher})
 res_json = json.loads(res.text)
-encrypted = res_json['message']
+encrypted = res_json['Message']
 nonce = bytes.fromhex(encrypted[:12 * 2])
 aad = bytes.fromhex(encrypted[-(16 * 2):])
 cipher = bytes.fromhex(encrypted.replace(encrypted[:12 * 2], '').replace(encrypted[-(16 * 2):], ''))

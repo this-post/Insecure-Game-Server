@@ -1,5 +1,5 @@
 # Redis
-REDIS_HOST = 'vulnb.redis.cache.windows.net'
+REDIS_HOST = 'vulb.redis.cache.windows.net'
 REDIS_PWD = 'uh2ORVR4wUqhq0U3OECgHe2ykWNnszfAZAzCaEZ3kJA='
 REDIS_SSL_PORT = 6380
 REDIS_NON_SSL_PORT = 6379
@@ -20,5 +20,4 @@ class Trusted_URLs(str, Enum):
     azure = AZURE_URL
 
 # Key agreement
-KDF_MSG_INFO = 'handshake data'
-PRIV_KEY_PATH = './PrivKey/ec512-priv.pem'
+PRIV_KEY_PATH = './PrivKey/ec521-priv.pem'
