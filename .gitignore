@@ -135,7 +135,7 @@ __azurite_db*__.json
 .python_packages
 
 # E2EE Private key
-ec512-priv.pem
+ec521-priv.pem
 
 # DS_Store
 .DS_Store
