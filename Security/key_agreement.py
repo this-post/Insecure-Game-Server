@@ -6,7 +6,7 @@ from Constant import msg_config, server_config
 import uuid, os, redis, logging
 
 class KEY_AGREEMENT:
-    def __init__(self):
+    def __init__(self) -> None:
         if server_config.IS_TESTING_ENV_REDIS:
             self._redis = redis.Redis(
                 host = 'localhost',
@@ -27,12 +27,12 @@ class KEY_AGREEMENT:
         self.serv_priv_key = serialization.load_pem_private_key(f_content.encode('utf-8'), password = None)
         f.close()
 
-    def get_shared_secret(self, pub_key):
+    def get_shared_secret(self, pub_key) -> bytes:
         client_pub_key_der = serialization.load_der_public_key(bytes.fromhex(pub_key))
         # https://github.com/cose-wg/cose-issues/issues/3
         return self.serv_priv_key.exchange(ec.ECDH(), client_pub_key_der) # this always keep the leading zero as it's convert to Hex, and will incompatible with C# BoucyCastle
 
-    def get_shared_secret_kdf(self, _salt, shared_secret):
+    def get_shared_secret_kdf(self, _salt, shared_secret) -> bytes:
         return PBKDF2HMAC(
             algorithm = hashes.SHA256(),
             length = 32,
@@ -66,4 +66,4 @@ class KEY_AGREEMENT:
         except ValueError:
             return (False, msg_config.KEX_INVALID_DER)
         except UnsupportedAlgorithm:
-            return (False, msg_config.KEX_INVALID_)
+            return (False, msg_config.KEX_INVALID_ALG)

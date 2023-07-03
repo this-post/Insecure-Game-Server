@@ -1,5 +1,5 @@
 {
-  "scriptFile": "get_pinned_cert.py",
+  "scriptFile": "update_user_title_display_name.py",
   "bindings": [
     {
       "authLevel": "anonymous",

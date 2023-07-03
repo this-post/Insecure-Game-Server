@@ -34,9 +34,6 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
                     mimetype = "application/json",
                     status_code = 500
                 )
-            # payload = {
-            #     'result': sha512_fingerprints
-            # }
             enc_msg = enc_alg.aes_encrypt(json.dumps(sha512_fingerprints))
             response = {
                 'Code': msg_config.FUNC_CALL_SUCCESS_CODE,

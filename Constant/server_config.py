@@ -10,7 +10,8 @@ PLAYFAB_TITLE_ID = 'cc95c'
 PLAYFAB_URL = '{0}.playfabapi.com'.format(PLAYFAB_TITLE_ID)
 
 # Azure URL, wildcard Cert, the sub-domain can be ANY
-AZURE_SUB_DOMAIN = 'msdcinfo' # Microsoft owned sub-domain
+# AZURE_SUB_DOMAIN = 'msdcinfo' # Microsoft owned sub-domain, GONE
+AZURE_SUB_DOMAIN = 'azuredatacentermap'
 AZURE_URL = '{0}.azurewebsites.net'.format(AZURE_SUB_DOMAIN)
 
 # Certificate Pinning
@@ -21,3 +22,6 @@ class Trusted_URLs(str, Enum):
 
 # Key agreement
 PRIV_KEY_PATH = './PrivKey/ec521-priv.pem'
+
+# HTTP headers
+X_AUTH_HEADER = 'X-Authorization'

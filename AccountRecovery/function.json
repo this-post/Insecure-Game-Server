@@ -1,5 +1,5 @@
 {
-  "scriptFile": "get_pinned_cert.py",
+  "scriptFile": "account_recovery.py",
   "bindings": [
     {
       "authLevel": "anonymous",

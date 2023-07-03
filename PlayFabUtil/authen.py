@@ -6,13 +6,10 @@ class AUTHEN:
     def __init__(self) -> None:
         PlayFabSettings.TitleId = server_config.PLAYFAB_TITLE_ID
 
-    def callback(self, success, failure):
+    def callback(self, success, failure) -> None:
             self.success = success
-            # logging.info(success)
             self.failure = failure
-            # logging.info(failure)
 
-    def login_with_email(self, request):
+    def login_with_email(self, request) -> None:
         logging.info('Login with Email: {0}, Password: {1}'.format(request['Email'], request['Password']))
-        request['TitleId'] = PlayFabSettings.TitleId
         PlayFabClientAPI.LoginWithEmailAddress(request, self.callback)

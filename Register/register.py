@@ -1,5 +1,5 @@
 import azure.functions as func
-from PlayFabUtil.authen import AUTHEN
+from PlayFabUtil.register import REGISTER
 from HttpMessageHandling import request_validation, response_handler
 
 def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
@@ -7,10 +7,12 @@ def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     request_validation.validate_decrypted_params(json_data.items())
     email = json_data.get('Email')
     passwd = json_data.get('Password')
-    playfab_auth_req = {
+    is_require_username = json_data.get('RequireBothUsernameAndEmail')
+    playfab_register_req = {
         'Email': email,
-        'Password': passwd
+        'Password': passwd,
+        'RequireBothUsernameAndEmail': is_require_username
     }
-    playfab_auth = AUTHEN()
-    playfab_auth.login_with_email(playfab_auth_req)
-    return response_handler.send_response(kid, playfab_auth)
+    playfab_register = REGISTER()
+    playfab_register.register_with_email(playfab_register_req)
+    return response_handler.send_response(kid, playfab_register)
