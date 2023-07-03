@@ -7,7 +7,7 @@ class RECOVERY:
         PlayFabSettings.TitleId = server_config.PLAYFAB_TITLE_ID
 
     def callback(self, success, failure) -> None:
-            self.success = {'Not null': 'Not null'} # The successful operation will always return an empty that let's the response_handler.send_response() is error, so, we just set the dummy data to prevent null object
+            self.success = {'EmailSent': True} # The successful operation will always return an empty object that let's the response_handler.send_response() is error, so, we just set our own result to prevent null object
             self.failure = failure
     
     def recovery_with_email(self, request) -> None:
