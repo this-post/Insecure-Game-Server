@@ -20,3 +20,10 @@ IS_TESTING_ENV_REDIS = False
 docker pull redis
 docker run --rm -p 6379:6379 -d redis
 ```
+
+## Enter your PlayFab Developer Secret
+In `Constant/server_config.py`
+```python
+# PlayFab Admin secret key
+X_SECRET_KEY = ''
+```
