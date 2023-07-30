@@ -20,6 +20,12 @@ IS_TESTING_ENV_REDIS = False
 docker pull redis
 docker run --rm -p 6379:6379 -d redis
 ```
+### If Azure Redis is chosen
+In `Constant/server_config.py`, Enter your Redis credentials
+```python
+REDIS_HOST = ''
+REDIS_PWD = ''
+```
 
 ## Enter your PlayFab Developer Secret
 In `Constant/server_config.py`

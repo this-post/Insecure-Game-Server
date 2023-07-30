@@ -1,6 +1,6 @@
 # Redis
-REDIS_HOST = 'vulb.redis.cache.windows.net'
-REDIS_PWD = 'uh2ORVR4wUqhq0U3OECgHe2ykWNnszfAZAzCaEZ3kJA='
+REDIS_HOST = ''
+REDIS_PWD = ''
 REDIS_SSL_PORT = 6380
 REDIS_NON_SSL_PORT = 6379
 IS_TESTING_ENV_REDIS = True
