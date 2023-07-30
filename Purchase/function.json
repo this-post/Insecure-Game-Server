@@ -1,5 +1,5 @@
 {
-  "scriptFile": "update_user_title_display_name.py",
+  "scriptFile": "store_and_item.py",
   "bindings": [
     {
       "authLevel": "anonymous",
@@ -8,7 +8,8 @@
       "name": "req",
       "methods": [
         "post"
-      ]
+      ],
+      "route": "Purchase/{action}"
     },
     {
       "type": "http",

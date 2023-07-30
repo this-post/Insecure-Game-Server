@@ -1,0 +1,145 @@
+[
+  {
+    "Action": "*",
+    "Effect": "Allow",
+    "Resource": "*--*",
+    "Principal": {
+      "ChildOf": {
+        "EntityType": "namespace",
+        "EntityId": "869FCB18DC823D50"
+      }
+    },
+    "Comment": "The default allow title in namespace full access",
+    "Condition": {
+      "CallingEntityType": "title"
+    }
+  },
+  {
+    "Action": "*",
+    "Effect": "Allow",
+    "Resource": "pfrn:data--*![SELF]/Profile/*",
+    "Principal": "[SELF]",
+    "Comment": "The default allow profile self access",
+    "Condition": null
+  },
+  {
+    "Action": "*",
+    "Effect": "Allow",
+    "Resource": "pfrn:data--*![SELF]/Profile/*",
+    "Principal": {
+      "ChildOf": {
+        "EntityType": "[SELF]"
+      }
+    },
+    "Comment": "The default allow profile child access",
+    "Condition": null
+  },
+  {
+    "Action": "Write",
+    "Effect": "Deny",
+    "Resource": "pfrn:data--*!*/Profile/Statistics/*",
+    "Principal": "*",
+    "Comment": "Only title can edit user statistics",
+    "Condition": {
+      "CallingEntityType": "title_player_account"
+    }
+  },
+  {
+    "Action": "Write",
+    "Effect": "Deny",
+    "Resource": "pfrn:data--*!*/Profile/Statistics/*",
+    "Principal": "*",
+    "Comment": "Only title can edit user statistics",
+    "Condition": {
+      "CallingEntityType": "character"
+    }
+  },
+  {
+    "Action": "Write",
+    "Effect": "Deny",
+    "Resource": "pfrn:data--*!*/Profile/Statistics/*",
+    "Principal": "*",
+    "Comment": "Only title can edit user statistics",
+    "Condition": {
+      "CallingEntityType": "master_player_account"
+    }
+  },
+  {
+    "Action": "Write",
+    "Effect": "Deny",
+    "Resource": "pfrn:data--group!*/Profile/Statistics/*",
+    "Principal": {
+      "MemberOf": {
+        "RoleId": "*"
+      }
+    },
+    "Comment": "Only title can edit group statistics",
+    "Condition": null
+  },
+  {
+    "Action": "LobbyServerFull",
+    "Effect": "Allow",
+    "Resource": "pfrn:data--game_server!*/Lobby/Server/*",
+    "Principal": {
+      "ChildOf": {
+        "EntityType": "title",
+        "EntityId": "CC95C"
+      }
+    },
+    "Comment": "The Default allow title full Lobby server functionality",
+    "Condition": {
+      "CallingEntityType": "game_server"
+    }
+  },
+  {
+    "Action": "Read",
+    "Effect": "Allow",
+    "Resource": "*--*",
+    "Principal": {
+      "ChildOf": {
+        "EntityType": "namespace",
+        "EntityId": "869FCB18DC823D50"
+      }
+    },
+    "Comment": "The default allow game_server in namespace full access",
+    "Condition": {
+      "CallingEntityType": "game_server"
+    }
+  },
+  {
+    "Action": "Write",
+    "Effect": "Allow",
+    "Resource": "*--*",
+    "Principal": {
+      "ChildOf": {
+        "EntityType": "namespace",
+        "EntityId": "869FCB18DC823D50"
+      }
+    },
+    "Comment": "The default allow game_server in namespace full access",
+    "Condition": {
+      "CallingEntityType": "game_server"
+    }
+  },
+  {
+    "Action": "Create",
+    "Effect": "Allow",
+    "Resource": "*--*",
+    "Principal": {
+      "ChildOf": {
+        "EntityType": "namespace",
+        "EntityId": "869FCB18DC823D50"
+      }
+    },
+    "Comment": "The default allow game_server in namespace full access",
+    "Condition": {
+      "CallingEntityType": "game_server"
+    }
+  },
+  {
+    "Resource": "pfrn:api--/Client/GetCatalogItems",
+    "Principal": "*",
+    "Effect": "Allow",
+    "Action": "*"
+  }
+]

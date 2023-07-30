@@ -1,0 +1,49 @@
+{
+    "PolicyName": "ApiPolicy",
+    "Statements": [
+      {
+        "Resource": "pfrn:api--/Admin/*",
+        "Action": "*",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Comment": "The default allow all admin APIs statement."
+      },
+      {
+        "Resource": "pfrn:api--/Authentication/GetEntityToken",
+        "Action": "*",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Comment": "The default allow all authentication APIs statement."
+      },
+      {
+        "Resource": "pfrn:api--/Profile/GetProfile",
+        "Action": "*",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Comment":"Use X-Authorization for checking, no intentional IDOR, even requesting with an arbitrary EntityId"
+      },
+      {
+        "Resource":"pfrn:api--/Client/SendAccountRecoveryEmail",
+        "Principal":"*",
+        "Effect":"Allow",
+        "Action":"*",
+        "Comment":"Unauthenticated API, allow anyone to call"
+      },
+      {
+        "Resource":"pfrn:api--/Client/RegisterPlayFabUser",
+        "Principal":"*",
+        "Effect":"Allow",
+        "Action":"*",
+        "Comment":"Unauthenticated API, allow anyone to call"
+      },
+      {
+        "Resource":"pfrn:api--/Client/LoginWithEmailAddress",
+        "Principal":"*",
+        "Effect":"Allow",
+        "Action":"*",
+        "Comment":"Unauthenticated API, allow anyone to call"
+      }
+    ],
+    "OverwritePolicy": true,
+    "PolicyVersion": 8
+  }

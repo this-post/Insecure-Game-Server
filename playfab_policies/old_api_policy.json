@@ -1,0 +1,356 @@
+{
+    "PolicyName": "ApiPolicy",
+    "Statements": [
+        {
+            "Resource": "pfrn:api--/Client/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all client APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Admin/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all admin APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Authentication/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all authentication APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/AutomationRule/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all automation rule APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all catalog APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Event/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all event APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Experimentation/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all experimentation APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Group/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all group APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all inventory APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Leaderboard/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all leaderboard APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Limits/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all limits APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Locale/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all locale APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Match/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all match APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Matchmaker/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all matchmaker APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Notification/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all notification APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Object/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all object APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Profile/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all profile APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Segmentation/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all segmentation APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Server/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all server APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Statistic/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all statistic APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/UserGeneratedContent/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all user generated content APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Lobby/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all lobby APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/PubSub/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all PubSub APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/CreateDraftItem",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from creating items."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/UpdateDraftItem",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from updating items."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/CreateDraftItem",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from creating items."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/UpdateDraftItem",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from updating items."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/GetCatalogConfig",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from getting catalog config"
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/UpdateCatalogConfig",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from updating catalog config"
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/GetCatalogConfig",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from getting catalog config"
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/UpdateCatalogConfig",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from updating catalog config"
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/GetModerationState",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from getting moderation state."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/SetModerationState",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from setting moderation state."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/GetModerationState",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from getting moderation state."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/SetModerationState",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from setting moderation state."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/CreateUploadUrls",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from creating uploaded urls."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/CreateUploadUrls",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from creating uploaded urls."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/TakedownItemReviews",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from taking down item reviews."
+        },
+        {
+            "Resource": "pfrn:api--/Catalog/TakedownItemReviews",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from taking down item reviews."
+        },
+        {
+            "Resource": "pfrn:api--/PlayerIdentity/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all player identity APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/TitlePlayer/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all title player APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/GameServerIdentity/*",
+            "Action": "*",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Comment": "The default allow all game server identity APIs statement."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/AddInventoryItems",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from adding inventory items."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/AddInventoryItems",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from adding inventory items."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/UpdateInventoryItems",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from updating inventory items."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/UpdateInventoryItems",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from updating inventory items."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/DeleteInventoryCollection",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from deleting inventory collection."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/DeleteInventoryCollection",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from deleting inventory collection."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/ExecuteInventoryOperations",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"title_player_account\":\"*\"}",
+            "Comment": "The default deny title_player_account from executing inventory operations."
+        },
+        {
+            "Resource": "pfrn:api--/Inventory/ExecuteInventoryOperations",
+            "Action": "*",
+            "Effect": "Deny",
+            "Principal": "{\"master_player_account\":\"*\"}",
+            "Comment": "The default deny master_player_account from executing inventory operations."
+        }
+    ],
+    "PolicyVersion": 8
+}

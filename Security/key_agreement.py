@@ -5,6 +5,12 @@ from cryptography.exceptions import UnsupportedAlgorithm
 from Constant import msg_config, server_config
 import uuid, os, redis, logging
 
+class KEX_RESPONSE_DTO:
+    def __init__(self, key_id: str = None, salt: str = None, server_public_key: str = None) -> None:
+        self.KeyId = key_id
+        self.Salt = salt
+        self.ServerPublicKey = server_public_key
+
 class KEY_AGREEMENT:
     def __init__(self) -> None:
         if server_config.IS_TESTING_ENV_REDIS:
@@ -41,9 +47,9 @@ class KEY_AGREEMENT:
         ).derive(shared_secret)
 
     def generate_kid(self, session_key) -> str:
-        keyId = str(uuid.uuid4())
-        self._redis.set(keyId, session_key)
-        return keyId
+        key_id = str(uuid.uuid4())
+        self._redis.set(key_id, session_key)
+        return key_id
 
     def key_exchange(self, client_pub_key) -> tuple[bool, dict]:
         try:
@@ -53,16 +59,16 @@ class KEY_AGREEMENT:
             logging.info('Shared secret: ' + shared_secret.hex())
             session_key = self.get_shared_secret_kdf(_salt, shared_secret)
             logging.info('Session key: ' + session_key.hex())
-            keyId = self.generate_kid(session_key)
-            kex_result = {
-                'KeyId': keyId,
-                'Salt': _salt.hex(),
-                'ServerPublicKey': self.serv_priv_key.public_key().public_bytes(
+            _key_id = self.generate_kid(session_key)
+            kex_result = KEX_RESPONSE_DTO(
+                key_id = _key_id,
+                salt = _salt.hex(),
+                server_public_key = self.serv_priv_key.public_key().public_bytes(
                     encoding = serialization.Encoding.DER,
                     format = serialization.PublicFormat.SubjectPublicKeyInfo
                 ).hex()
-            }
-            return (True, kex_result)
+            )
+            return (True, kex_result.__dict__)
         except ValueError:
             return (False, msg_config.KEX_INVALID_DER)
         except UnsupportedAlgorithm:

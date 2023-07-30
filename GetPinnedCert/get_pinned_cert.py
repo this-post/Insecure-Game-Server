@@ -1,66 +1,28 @@
-import logging, json
 import azure.functions as func
-from Constant import msg_config
-from Security.aes_gcm import AES_GCM
+from Constant import msg_config, server_config
 from Security import cert_pinning
+from HttpMessageHandling import request_validation, response_handler, response_model
+
+class CERT_PINNING_DTO():
+    def __init__(self, key_id: str = None) -> None:
+        self.KeyId = key_id
 
 def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
-    expected_param_name = 'KeyId'
-    try:
-        req_body = req.get_json()
-        logging.info(msg_config.FUNC_CALL_LOG.format(function_name = context.function_name, json_body = str(req_body)))
-    except ValueError:
-        response = {
-            'Code': msg_config.HTTP_REQ_IS_NOT_JSON_CODE,
-            'Message': msg_config.HTTP_REQ_IS_NOT_JSON
-        }
-        return func.HttpResponse(
-                    json.dumps(response),
-                    mimetype = "application/json",
-                    status_code = 400
-                )
-    kid = req_body.get(expected_param_name)
-    if kid:
-        enc_alg = AES_GCM(kid)
-        if enc_alg.is_valid_kid():
-            sha512_fingerprints = cert_pinning.get_pinned_cert_sha512()
-            if not sha512_fingerprints:
-                response = {
-                    'Code': msg_config.CERT_GET_URL_ERROR_CODE,
-                    'Message': msg_config.CERT_GET_URL_ERROR
-                }
-                return func.HttpResponse(
-                    json.dumps(response),
-                    mimetype = "application/json",
-                    status_code = 500
-                )
-            enc_msg = enc_alg.aes_encrypt(json.dumps(sha512_fingerprints))
-            response = {
-                'Code': msg_config.FUNC_CALL_SUCCESS_CODE,
-                'Message': enc_msg
-            }
-            return func.HttpResponse(
-                json.dumps(response),
-                mimetype = "application/json",
-                status_code = 200
-            )
-        else:
-            response = {
-                'Code': msg_config.KEX_GEN_INVALID_KID_CODE,
-                'Message': msg_config.KEX_GEN_INVALID_KID
-            }
-            return func.HttpResponse(
-                json.dumps(response),
-                mimetype = "application/json",
-                status_code = 500
-            )
+    if not request_validation.is_valid_json(req, context):
+        return response_handler.send_invalid_json_response()
+    req_body = req.get_json()
+    request_dto = CERT_PINNING_DTO(
+        key_id = req_body.get('KeyId')
+    )
+    is_missing_param, missing_key = request_validation.is_missing_param(request_dto)
+    if is_missing_param:
+        return response_handler.send_missing_params_response(missing_key)
+    sha512_fingerprints = cert_pinning.get_pinned_cert_sha512()
+    if not sha512_fingerprints:
+        response_dto = response_model.COMMON_RESPONSE_DTO(
+            code = msg_config.CERT_GET_URL_ERROR_CODE,
+            message = msg_config.CERT_GET_URL_ERROR
+        )
+        return response_handler.send_response(response_dto, server_config.INTERNAL_ERROR_CODE)
     else:
-        response = {
-            'Code': msg_config.HTTP_REQ_PARAMS_MISSING_CODE,
-            'Message': msg_config.HTTP_REQ_PARAMS_MISSING.format(param_name = expected_param_name)
-        }
-        return func.HttpResponse(
-                    json.dumps(response), 
-                    mimetype = "application/json", 
-                    status_code = 400
-                )
+        return response_handler.send_cert_pinning_response(request_dto.KeyId, sha512_fingerprints)

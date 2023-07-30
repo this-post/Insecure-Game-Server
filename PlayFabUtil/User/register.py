@@ -11,5 +11,6 @@ class REGISTER:
         self.failure = failure
     
     def register_with_email(self, request) -> None:
-        logging.info('Register with Email: {0}, Password: {1}'.format(request['Email'], request['Password']))
-        PlayFabClientAPI.RegisterPlayFabUser(request, self.callback)
+        request_dict = request.__dict__
+        logging.info('Register with Email: {0}, Password: {1}'.format(request_dict['Email'], request_dict['Password']))
+        PlayFabClientAPI.RegisterPlayFabUser(request_dict, self.callback)

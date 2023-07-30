@@ -11,5 +11,6 @@ class AUTHEN:
             self.failure = failure
 
     def login_with_email(self, request) -> None:
-        logging.info('Login with Email: {0}, Password: {1}'.format(request['Email'], request['Password']))
-        PlayFabClientAPI.LoginWithEmailAddress(request, self.callback)
+        request_dict = request.__dict__
+        logging.info('Login with Email: {0}, Password: {1}'.format(request_dict['Email'], request_dict['Password']))
+        PlayFabClientAPI.LoginWithEmailAddress(request_dict, self.callback)

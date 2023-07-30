@@ -1,17 +1,20 @@
-from Constant import msg_config, server_config
+from Constant import server_config
 import azure.functions as func
-import json
 
-def is_contain_x_auth_header(req) -> str: # just validate the existence of it, PlayFab server will check the validity instead
+def is_contain_x_auth_header(req: func.HttpRequest) -> bool: # just validate the existence of it, PlayFab server will check the validity instead
     x_auth_header = req.headers.get(server_config.X_AUTH_HEADER)
     if not x_auth_header:
-        response = {
-            'Code': msg_config.HTTP_REQ_UNAUTH_CODE,
-            'Message': msg_config.HTTP_REQ_UNAUTH
-        }
-        return func.HttpResponse(
-                    json.dumps(response), 
-                    mimetype = "application/json", 
-                    status_code = 403
-                )
-    return x_auth_header
+        return False
+    return True
+
+def get_x_auth(req: func.HttpRequest) -> str:
+    return req.headers.get(server_config.X_AUTH_HEADER)
+
+def is_contain_x_entity_token_header(req: func.HttpRequest) -> bool:
+    x_entity_token_header = req.headers.get(server_config.X_ENTITY_TOKEN_HEADER)
+    if not x_entity_token_header:
+        return False
+    return True
+
+def get_x_entity_token(req: func.HttpRequest) -> str:
+    return req.headers.get(server_config.X_ENTITY_TOKEN_HEADER)
